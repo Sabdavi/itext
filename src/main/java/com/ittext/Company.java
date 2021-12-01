@@ -1,2 +1,5 @@
-package com.ittext;public enum Company {
+package com.ittext;
+
+public enum Company {
+    POSH,GROTTY
 }
