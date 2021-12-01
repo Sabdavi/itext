@@ -1,12 +1,14 @@
 package com.ittext;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Service {
+public class Service implements Comparable<Service> {
 
     Company company;
     Date departureTime;
     Date arrivalTime;
+    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
     public Service(Company company, Date departureTime, Date arrivalTime) {
         this.company = company;
@@ -73,4 +75,13 @@ public class Service {
 
     }
 
+    @Override
+    public String toString() {
+        return company.toString()+" "+format.format(departureTime)+" "+format.format(arrivalTime);
+    }
+
+    @Override
+    public int compareTo(Service o) {
+        return departureTime.compareTo(o.getDepartureTime());
+    }
 }

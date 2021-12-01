@@ -7,9 +7,12 @@ import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceTest {
 
@@ -55,5 +58,32 @@ public class ServiceTest {
         assertFalse(service.isMoreEfficient(service6));
         assertFalse(service.isMoreEfficient(service7));
         assertFalse(service.isMoreEfficient(service8));
+    }
+
+    @Test
+    public void TestSortServices() throws ParseException {
+        List<Service> services = new ArrayList<>();
+        services.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:00")));
+        services.add(new Service(Company.POSH, formatter.parse("10:50"), formatter.parse("11:00")));
+        services.add(new Service(Company.POSH, formatter.parse("09:10"), formatter.parse("11:00")));
+        services.add(new Service(Company.POSH, formatter.parse("07:10"), formatter.parse("10:50")));
+        services.add(new Service(Company.POSH, formatter.parse("10:20"), formatter.parse("11:00")));
+        services.add(new Service(Company.POSH, formatter.parse("09:40"), formatter.parse("10:50")));
+
+        List<Service> sortedServices = new ArrayList<>();
+        sortedServices.add(new Service(Company.POSH, formatter.parse("07:10"), formatter.parse("10:50")));
+        sortedServices.add(new Service(Company.POSH, formatter.parse("09:10"), formatter.parse("11:00")));
+        sortedServices.add(new Service(Company.POSH, formatter.parse("09:40"), formatter.parse("10:50")));
+        sortedServices.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:00")));
+        sortedServices.add(new Service(Company.POSH, formatter.parse("10:20"), formatter.parse("11:00")));
+        sortedServices.add(new Service(Company.POSH, formatter.parse("10:50"), formatter.parse("11:00")));
+
+        Collections.sort(services);
+        for(int i = 0 ; i <= 0 ; i++){
+            assertEquals(sortedServices.get(i),services.get(i));
+        }
+
+
+
     }
 }
