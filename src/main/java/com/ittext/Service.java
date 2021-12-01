@@ -52,6 +52,25 @@ public class Service {
     @Override
     // @todo we assumed that combination of these three fields are unique,otherwise we should develop a better hash function
     public int hashCode() {
-        return (company.toString()+departureTime.toString()+arrivalTime.toString()).hashCode();
+        return (company.toString() + departureTime.toString() + arrivalTime.toString()).hashCode();
     }
+
+    public boolean isMoreEfficient(Service service) {
+        if (service.equals(this)) {
+            return false;
+        }else if(hasSameDepartureAndArrival(service) ){
+            return service.getCompany().equals(Company.POSH);
+        } else {
+            return ((service.getDepartureTime().equals(this.getDepartureTime()) && service.getArrivalTime().compareTo(this.getArrivalTime()) < 0) ||
+                    (service.getArrivalTime().equals(this.getArrivalTime()) && service.getDepartureTime().compareTo(this.getDepartureTime()) > 0)) ||
+                    (service.getDepartureTime().compareTo(this.getDepartureTime()) > 0 && service.getArrivalTime().compareTo(this.getArrivalTime()) < 0);
+        }
+
+    }
+
+    private boolean hasSameDepartureAndArrival(Service service) {
+        return service.getDepartureTime().equals(this.getDepartureTime()) && service.getArrivalTime().equals(this.getArrivalTime());
+
+    }
+
 }

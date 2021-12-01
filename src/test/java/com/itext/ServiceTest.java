@@ -34,4 +34,26 @@ public class ServiceTest {
         assertFalse(service2.equals(otherService2));
         assertFalse(service3.equals(otherService3));
     }
+
+    @Test
+    public void testIsMoreEfficientService() throws ParseException {
+        Service service = new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:00"));
+        Service service1 = new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:00"));
+        Service service2 = new Service(Company.GROTTY, formatter.parse("10:10"), formatter.parse("11:00"));
+        Service service3 = new Service(Company.GROTTY, formatter.parse("10:10"), formatter.parse("10:50"));
+        Service service4 = new Service(Company.GROTTY, formatter.parse("10:20"), formatter.parse("11:00"));
+        Service service5 = new Service(Company.GROTTY, formatter.parse("10:20"), formatter.parse("10:50"));
+        Service service6 = new Service(Company.GROTTY, formatter.parse("10:05"), formatter.parse("11:00"));
+        Service service7 = new Service(Company.GROTTY, formatter.parse("10:10"), formatter.parse("11:10"));
+        Service service8 = new Service(Company.GROTTY, formatter.parse("10:05"), formatter.parse("11:10"));
+
+        assertFalse(service.isMoreEfficient(service1));
+        assertFalse(service.isMoreEfficient(service2));
+        assertTrue(service.isMoreEfficient(service3));
+        assertTrue(service.isMoreEfficient(service4));
+        assertTrue(service.isMoreEfficient(service5));
+        assertFalse(service.isMoreEfficient(service6));
+        assertFalse(service.isMoreEfficient(service7));
+        assertFalse(service.isMoreEfficient(service8));
+    }
 }
