@@ -32,20 +32,20 @@ public class TimeTableTest {
         initTimeTable.add(new Service(Company.POSH, formatter.parse("12:05"), formatter.parse("12:30")));
         initTimeTable.add(new Service(Company.GROTTY, formatter.parse("12:30"), formatter.parse("13:25")));
         initTimeTable.add(new Service(Company.GROTTY, formatter.parse("12:45"), formatter.parse("13:25")));
-        initTimeTable.add(new Service(Company.POSH, formatter.parse("17:25"), formatter.parse("18:10")));
+        initTimeTable.add(new Service(Company.POSH, formatter.parse("17:25"), formatter.parse("18:01")));
 
         resultTimeTable = new ArrayList<>();
         resultTimeTable.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:00")));
         resultTimeTable.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:10")));
         resultTimeTable.add(new Service(Company.POSH, formatter.parse("12:05"), formatter.parse("12:30")));
-        resultTimeTable.add(new Service(Company.POSH, formatter.parse("17:25"), formatter.parse("18:10")));
+        resultTimeTable.add(new Service(Company.POSH, formatter.parse("17:25"), formatter.parse("18:01")));
         resultTimeTable.add(new Service(Company.GROTTY, formatter.parse("12:45"), formatter.parse("13:25")));
 
 
     }
 
     @Test
-    public void TestGetMoreEfficientServicesThanThisService() throws ParseException {
+    public void testGetMoreEfficientServicesThanThisService() throws ParseException {
         Service service = new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:10"));
         List<Service> services = new ArrayList<>();
         services.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:5")));
@@ -100,9 +100,15 @@ public class TimeTableTest {
         for(int i = 0 ; i < services.size() ; i++){
             assertTrue(moreEfficientServicesThanThisService1.get(i).equals(efficientServices1.get(i)));
         }
+    }
 
+    @Test
+    public void testCreateTimeTable(){
+        List<Service> timeTableList = timeTable.createTimeTable(initTimeTable);
 
-
-
+        assertTrue(timeTableList.size()==resultTimeTable.size());
+        for(int i = 0 ; i < timeTableList.size() ; i++){
+            assertEquals(timeTableList.get(i),resultTimeTable.get(i));
+        }
     }
 }
