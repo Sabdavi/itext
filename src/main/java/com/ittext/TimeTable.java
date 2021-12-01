@@ -9,4 +9,13 @@ public class TimeTable {
         return new ArrayList<>();
     }
 
+    public List<Service> getMoreEfficientServicesThanThisService(Service service ,List<Service> services){
+        List<Service> moreEfficientServices = new ArrayList<>();
+        for(Service srv : services){
+            if(service.isMoreEfficient(srv)){
+                moreEfficientServices.add(srv);
+            }
+        }
+        return moreEfficientServices;
+    }
 }

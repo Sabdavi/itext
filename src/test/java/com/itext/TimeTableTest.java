@@ -2,6 +2,7 @@ package com.itext;
 
 import com.ittext.Company;
 import com.ittext.Service;
+import com.ittext.TimeTable;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -19,6 +20,7 @@ public class TimeTableTest {
     List<Service> initTimeTable;
     List<Service> resultTimeTable;
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+    TimeTable timeTable = new TimeTable();
 
     @BeforeAll
     public  void initEnvironment() throws ParseException {
@@ -43,11 +45,64 @@ public class TimeTableTest {
     }
 
     @Test
-    public void TestEqualService() throws ParseException {
-        Service service = new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:00"));
-        Service otherService = new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:00"));
+    public void TestGetMoreEfficientServicesThanThisService() throws ParseException {
+        Service service = new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:10"));
+        List<Service> services = new ArrayList<>();
+        services.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:5")));
+        services.add(new Service(Company.POSH, formatter.parse("10:17"), formatter.parse("11:10")));
+        services.add(new Service(Company.POSH, formatter.parse("10:18"), formatter.parse("11:9")));
 
-        assertFalse(initTimeTable.get(1).equals(initTimeTable.get(2)));
-        assertTrue(service.equals(otherService));
+        List<Service> efficientServices = new ArrayList<>();
+        efficientServices.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:5")));
+        efficientServices.add(new Service(Company.POSH, formatter.parse("10:17"), formatter.parse("11:10")));
+        efficientServices.add(new Service(Company.POSH, formatter.parse("10:18"), formatter.parse("11:9")));
+
+
+        List<Service> services1 = new ArrayList<>();
+        services1.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:5")));
+        services1.add(new Service(Company.POSH, formatter.parse("10:17"), formatter.parse("11:10")));
+        services1.add(new Service(Company.POSH, formatter.parse("10:18"), formatter.parse("11:9")));
+        services1.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:10")));
+        services1.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:15")));
+        services1.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:15")));
+
+        List<Service> efficientServices1 = new ArrayList<>();
+        efficientServices1.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:5")));
+        efficientServices1.add(new Service(Company.POSH, formatter.parse("10:17"), formatter.parse("11:10")));
+        efficientServices1.add(new Service(Company.POSH, formatter.parse("10:18"), formatter.parse("11:9")));
+
+        List<Service> services2 = new ArrayList<>();
+        services2.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:10")));
+        services2.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:15")));
+        services2.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:15")));
+
+        List<Service> efficientServices2 = new ArrayList<>();
+
+
+        List<Service> moreEfficientServicesThanThisService = timeTable.
+                getMoreEfficientServicesThanThisService(service, services);
+
+        List<Service> moreEfficientServicesThanThisService1 = timeTable.
+                getMoreEfficientServicesThanThisService(service, services1);
+
+        List<Service> moreEfficientServicesThanThisService2 = timeTable.
+                getMoreEfficientServicesThanThisService(service, services2);
+
+
+        assertEquals(moreEfficientServicesThanThisService.size(),efficientServices.size());
+        assertEquals(moreEfficientServicesThanThisService1.size(),efficientServices1.size());
+        assertEquals(moreEfficientServicesThanThisService2.size(),efficientServices2.size());
+
+        for(int i = 0 ; i < moreEfficientServicesThanThisService.size() ; i++){
+            assertTrue(moreEfficientServicesThanThisService.get(i).equals(efficientServices.get(i)));
+        }
+
+        for(int i = 0 ; i < services.size() ; i++){
+            assertTrue(moreEfficientServicesThanThisService1.get(i).equals(efficientServices1.get(i)));
+        }
+
+
+
+
     }
 }
