@@ -7,33 +7,46 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class TimeTable {
 
     SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
     EfficiencyStrategy efficiencyStrategy;
+    SyntaxChecker syntaxChecker;
 
-    public TimeTable(EfficiencyStrategy efficiencyStrategy) {
+    public TimeTable(EfficiencyStrategy efficiencyStrategy, SyntaxChecker syntaxChecker) {
         this.efficiencyStrategy = efficiencyStrategy;
+        this.syntaxChecker = syntaxChecker;
     }
 
     public Path createTimeTableFile(String fileName) throws IOException, ParseException {
         List<String> stringList = FileUtils.readFile(fileName);
-        List<Service> services =  convertStringToService(stringList);
+        List<Service> services =  convertStringToService(stringList,syntaxChecker);
         List<Service> timeTableObjects = createTimeTableObjects(services);
         return FileUtils.writeFile(timeTableObjects, "/home/saeid/Downloads/itext/resultTimeTable.txt");
 
     }
-    public List<Service> convertStringToService(List<String> stringServices) throws ParseException {
+    public List<Service> convertStringToService(List<String> stringServices, SyntaxChecker syntaxChecker) throws ParseException {
         List<Service> services = new ArrayList<>();
+        long lineNumber = 1;
         for(String srv : stringServices){
-            String[] serviceElements = srv.split(" ");
-            Service service = new Service(Company.valueOf(serviceElements[0]),
-                    format.parse(serviceElements[1]),format.parse(serviceElements[2]));
+            validateSyntax(srv, lineNumber, syntaxChecker);
+            Map<String, Integer> mapping = syntaxChecker.getMapping();
+            String[] serviceElements = srv.split(syntaxChecker.getSeparator());
+            Service service = new Service(Company.valueOf(serviceElements[mapping.get("company")]),
+                    format.parse(serviceElements[mapping.get("departureTime")]),format.parse(serviceElements[mapping.get("arrivalTime")]));
             services.add(service);
+            lineNumber++;
         }
         return services;
+    }
+
+    private void validateSyntax(String srv, long lineNumber, SyntaxChecker syntaxChecker) {
+        if(!syntaxChecker.getPattern().matcher(srv).find()){
+            throw new RuntimeException(String.format("invalid formant at line %d",lineNumber));
+        }
     }
 
     public List<Service> createTimeTableObjects(List<Service> serviceList){

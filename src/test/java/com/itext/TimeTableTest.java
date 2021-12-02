@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,8 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.itext.FileUtilsTest.compareToFile;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TimeTableTest {
@@ -25,7 +23,8 @@ public class TimeTableTest {
     List<Service> resultTimeTable;
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
     EfficiencyStrategy efficiencyStrategy = new EfficiencyStrategyImpl();
-    TimeTable timeTable = new TimeTable(efficiencyStrategy);
+    SyntaxChecker syntaxChecker = new SyntaxCheckerImpl();
+    TimeTable timeTable = new TimeTable(efficiencyStrategy, syntaxChecker);
     ClassLoader classLoader = getClass().getClassLoader();
 
     @BeforeAll
@@ -140,11 +139,38 @@ public class TimeTableTest {
                 "Grotty 12:45 13:25",
                 "Posh 17:25 18:01"
         );
-        List<Service> services = timeTable.convertStringToService(stringServices);
+        List<Service> services = timeTable.convertStringToService(stringServices, syntaxChecker);
         assertTrue(services.size() == stringServices.size());
         for(int i = 0 ; i < services.size() ; i++ ){
             assertEquals(services.get(i),initTimeTable.get(i));
         }
+    }
+
+    @Test
+    public void testCreateServiceObjects1() {
+        List<String> stringServices = Arrays.asList(
+                "fdsfsd 10:10 11:00"
+
+        );
+        assertThrows(RuntimeException.class,() -> timeTable.convertStringToService(stringServices, syntaxChecker));
+    }
+
+    @Test
+    public void testCreateServiceObjects2() {
+        List<String> stringServices = Arrays.asList(
+                "Posh qw:10 11:00"
+
+        );
+        assertThrows(RuntimeException.class,() -> timeTable.convertStringToService(stringServices, syntaxChecker));
+    }
+
+    @Test
+    public void testCreateServiceObjects3() {
+        List<String> stringServices = Arrays.asList(
+                "Posh 10:10 asas:00"
+
+        );
+        assertThrows(RuntimeException.class,() -> timeTable.convertStringToService(stringServices, syntaxChecker));
     }
 
 }
