@@ -12,6 +12,13 @@ public class TimeTable {
 
     SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
+    public Path createTimeTableFile(String fileName) throws IOException, ParseException {
+        List<String> stringList = FileUtils.readFile(fileName);
+        List<Service> services =  convertStringToService(stringList);
+        List<Service> timeTableObjects = createTimeTableObjects(services);
+        return FileUtils.writeFile(timeTableObjects, "/home/saeid/Downloads/itext/resultTimeTable.txt");
+
+    }
     public List<Service> convertStringToService(List<String> stringServices) throws ParseException {
         List<Service> services = new ArrayList<>();
         for(String srv : stringServices){

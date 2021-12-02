@@ -1,6 +1,7 @@
 package com.itext;
 
 import com.ittext.Company;
+import com.ittext.FileUtils;
 import com.ittext.Service;
 import com.ittext.TimeTable;
 import org.junit.jupiter.api.BeforeAll;
@@ -8,12 +9,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.itext.FileUtilsTest.compareToFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -24,6 +28,7 @@ public class TimeTableTest {
     List<Service> resultTimeTable;
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
     TimeTable timeTable = new TimeTable();
+    ClassLoader classLoader = getClass().getClassLoader();
 
     @BeforeAll
     public void initEnvironment() throws ParseException {
@@ -117,10 +122,13 @@ public class TimeTableTest {
         }
     }
 
-   /* @Test
-    public void testCreateTimeTableFile() throws IOException {
-        timeTable.createTimeTableFile(initTimeTable)
-    }*/
+    @Test
+    public void testCreateTimeTableFile() throws IOException, ParseException {
+        Path createdPath = timeTable.createTimeTableFile(classLoader.getResource("timeTable.txt").getPath());
+        Path existedPath = Path.of(classLoader.getResource("resultTimeTable.txt").getPath());
+
+        assertEquals(compareToFile(createdPath,existedPath),-1);
+    }
 
     @Test
     public void testCreateServiceObjects() throws ParseException {
