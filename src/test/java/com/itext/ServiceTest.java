@@ -38,28 +38,6 @@ public class ServiceTest {
     }
 
     @Test
-    public void testIsMoreEfficientService() throws ParseException {
-        Service service = new Service(Company.Posh, formatter.parse("10:10"), formatter.parse("11:00"));
-        Service service1 = new Service(Company.Posh, formatter.parse("10:10"), formatter.parse("11:00"));
-        Service service2 = new Service(Company.Grotty, formatter.parse("10:10"), formatter.parse("11:00"));
-        Service service3 = new Service(Company.Grotty, formatter.parse("10:10"), formatter.parse("10:50"));
-        Service service4 = new Service(Company.Grotty, formatter.parse("10:20"), formatter.parse("11:00"));
-        Service service5 = new Service(Company.Grotty, formatter.parse("10:20"), formatter.parse("10:50"));
-        Service service6 = new Service(Company.Grotty, formatter.parse("10:05"), formatter.parse("11:00"));
-        Service service7 = new Service(Company.Grotty, formatter.parse("10:10"), formatter.parse("11:10"));
-        Service service8 = new Service(Company.Grotty, formatter.parse("10:05"), formatter.parse("11:10"));
-
-        assertFalse(service.isMoreEfficient(service1));
-        assertFalse(service.isMoreEfficient(service2));
-        assertTrue(service.isMoreEfficient(service3));
-        assertTrue(service.isMoreEfficient(service4));
-        assertTrue(service.isMoreEfficient(service5));
-        assertFalse(service.isMoreEfficient(service6));
-        assertFalse(service.isMoreEfficient(service7));
-        assertFalse(service.isMoreEfficient(service8));
-    }
-
-    @Test
     public void TestSortServices() throws ParseException {
         List<Service> services = new ArrayList<>();
         services.add(new Service(Company.Posh, formatter.parse("10:10"), formatter.parse("11:00")));

@@ -1,9 +1,6 @@
 package com.itext;
 
-import com.ittext.Company;
-import com.ittext.FileUtils;
-import com.ittext.Service;
-import com.ittext.TimeTable;
+import com.ittext.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -27,7 +24,8 @@ public class TimeTableTest {
     List<Service> initTimeTable;
     List<Service> resultTimeTable;
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-    TimeTable timeTable = new TimeTable();
+    EfficiencyStrategy efficiencyStrategy = new EfficiencyStrategyImpl();
+    TimeTable timeTable = new TimeTable(efficiencyStrategy);
     ClassLoader classLoader = getClass().getClassLoader();
 
     @BeforeAll

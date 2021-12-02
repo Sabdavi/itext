@@ -12,6 +12,12 @@ public class TimeTable {
 
     SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
+    EfficiencyStrategy efficiencyStrategy;
+
+    public TimeTable(EfficiencyStrategy efficiencyStrategy) {
+        this.efficiencyStrategy = efficiencyStrategy;
+    }
+
     public Path createTimeTableFile(String fileName) throws IOException, ParseException {
         List<String> stringList = FileUtils.readFile(fileName);
         List<Service> services =  convertStringToService(stringList);
@@ -54,7 +60,7 @@ public class TimeTable {
     public List<Service> getMoreEfficientServicesThanThisService(Service service ,List<Service> services){
         List<Service> moreEfficientServices = new ArrayList<>();
         for(Service srv : services){
-            if(service.isMoreEfficient(srv)){
+            if(efficiencyStrategy.isMoreEfficient(srv,service)){
                 moreEfficientServices.add(srv);
             }
         }
