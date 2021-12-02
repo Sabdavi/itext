@@ -7,9 +7,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +26,7 @@ public class TimeTableTest {
     TimeTable timeTable = new TimeTable();
 
     @BeforeAll
-    public  void initEnvironment() throws ParseException {
+    public void initEnvironment() throws ParseException {
         initTimeTable = new ArrayList<>();
         initTimeTable.add(new Service(Company.Posh, formatter.parse("10:15"), formatter.parse("11:10")));
         initTimeTable.add(new Service(Company.Posh, formatter.parse("10:10"), formatter.parse("11:00")));
@@ -90,26 +92,53 @@ public class TimeTableTest {
                 getMoreEfficientServicesThanThisService(service, services2);
 
 
-        assertEquals(moreEfficientServicesThanThisService.size(),efficientServices.size());
-        assertEquals(moreEfficientServicesThanThisService1.size(),efficientServices1.size());
-        assertEquals(moreEfficientServicesThanThisService2.size(),efficientServices2.size());
+        assertEquals(moreEfficientServicesThanThisService.size(), efficientServices.size());
+        assertEquals(moreEfficientServicesThanThisService1.size(), efficientServices1.size());
+        assertEquals(moreEfficientServicesThanThisService2.size(), efficientServices2.size());
 
-        for(int i = 0 ; i < moreEfficientServicesThanThisService.size() ; i++){
+        for (int i = 0; i < moreEfficientServicesThanThisService.size(); i++) {
             assertTrue(moreEfficientServicesThanThisService.get(i).equals(efficientServices.get(i)));
         }
 
-        for(int i = 0 ; i < services.size() ; i++){
+        for (int i = 0; i < services.size(); i++) {
             assertTrue(moreEfficientServicesThanThisService1.get(i).equals(efficientServices1.get(i)));
         }
     }
 
     @Test
-    public void testCreateTimeTable(){
-        List<Service> timeTableList = timeTable.createTimeTable(initTimeTable);
+    public void testCreateTimeTableObjects() {
+        List<Service> timeTableList = timeTable.createTimeTableObjects(initTimeTable);
 
-        assertTrue(timeTableList.size()==resultTimeTable.size());
-        for(int i = 0 ; i < timeTableList.size() ; i++){
-            assertEquals(timeTableList.get(i),resultTimeTable.get(i));
+        assertTrue(timeTableList.size() == resultTimeTable.size());
+        for (int i = 0; i < timeTableList.size(); i++) {
+            if (timeTableList.get(i) != null) {
+                assertEquals(timeTableList.get(i), resultTimeTable.get(i));
+            }
         }
     }
+
+   /* @Test
+    public void testCreateTimeTableFile() throws IOException {
+        timeTable.createTimeTableFile(initTimeTable)
+    }*/
+
+    @Test
+    public void testCreateServiceObjects() throws ParseException {
+        List<String> stringServices = Arrays.asList(
+                "Posh 10:15 11:10",
+                "Posh 10:10 11:00",
+                "Grotty 10:10 11:00",
+                "Grotty 16:30 18:45",
+                "Posh 12:05 12:30",
+                "Grotty 12:30 13:25",
+                "Grotty 12:45 13:25",
+                "Posh 17:25 18:01"
+        );
+        List<Service> services = timeTable.convertStringToService(stringServices);
+        assertTrue(services.size() == stringServices.size());
+        for(int i = 0 ; i < services.size() ; i++ ){
+            assertEquals(services.get(i),initTimeTable.get(i));
+        }
+    }
+
 }

@@ -11,16 +11,16 @@ import java.util.stream.Collectors;
 public class FileUtils {
     public static List<String> readFile(String fileName) throws IOException {
         Path path = Path.of(fileName);
-        try(BufferedReader bufferedReader = Files.newBufferedReader(path)){
+        try (BufferedReader bufferedReader = Files.newBufferedReader(path)) {
             return bufferedReader.lines().collect(Collectors.toList());
         }
     }
 
-    public static Path writeFile(List<Service> services , String fileName) throws IOException {
+    public static Path writeFile(List<Service> services, String fileName) throws IOException {
         Path path = Path.of(fileName);
-        try(BufferedWriter bufferedWriter = Files.newBufferedWriter(path)){
-            for(Service service : services){
-                bufferedWriter.write(service.toString()+"\n");
+        try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path)) {
+            for (Service service : services) {
+                bufferedWriter.write(service.toString() + "\n");
             }
         }
         return path;
