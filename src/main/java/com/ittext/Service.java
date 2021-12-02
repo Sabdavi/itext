@@ -61,7 +61,7 @@ public class Service implements Comparable<Service> {
         if (service.equals(this)) {
             return false;
         }else if(hasSameDepartureAndArrival(service) ){
-            return service.getCompany().equals(Company.POSH);
+            return service.getCompany().equals(Company.Posh);
         } else {
             return ((service.getDepartureTime().equals(this.getDepartureTime()) && service.getArrivalTime().compareTo(this.getArrivalTime()) < 0) ||
                     (service.getArrivalTime().equals(this.getArrivalTime()) && service.getDepartureTime().compareTo(this.getDepartureTime()) > 0)) ||

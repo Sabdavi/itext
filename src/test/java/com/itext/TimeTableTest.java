@@ -12,7 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TimeTableTest {
@@ -25,56 +26,56 @@ public class TimeTableTest {
     @BeforeAll
     public  void initEnvironment() throws ParseException {
         initTimeTable = new ArrayList<>();
-        initTimeTable.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:10")));
-        initTimeTable.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:00")));
-        initTimeTable.add(new Service(Company.GROTTY, formatter.parse("10:10"), formatter.parse("11:00")));
-        initTimeTable.add(new Service(Company.GROTTY, formatter.parse("16:30"), formatter.parse("18:45")));
-        initTimeTable.add(new Service(Company.POSH, formatter.parse("12:05"), formatter.parse("12:30")));
-        initTimeTable.add(new Service(Company.GROTTY, formatter.parse("12:30"), formatter.parse("13:25")));
-        initTimeTable.add(new Service(Company.GROTTY, formatter.parse("12:45"), formatter.parse("13:25")));
-        initTimeTable.add(new Service(Company.POSH, formatter.parse("17:25"), formatter.parse("18:01")));
+        initTimeTable.add(new Service(Company.Posh, formatter.parse("10:15"), formatter.parse("11:10")));
+        initTimeTable.add(new Service(Company.Posh, formatter.parse("10:10"), formatter.parse("11:00")));
+        initTimeTable.add(new Service(Company.Grotty, formatter.parse("10:10"), formatter.parse("11:00")));
+        initTimeTable.add(new Service(Company.Grotty, formatter.parse("16:30"), formatter.parse("18:45")));
+        initTimeTable.add(new Service(Company.Posh, formatter.parse("12:05"), formatter.parse("12:30")));
+        initTimeTable.add(new Service(Company.Grotty, formatter.parse("12:30"), formatter.parse("13:25")));
+        initTimeTable.add(new Service(Company.Grotty, formatter.parse("12:45"), formatter.parse("13:25")));
+        initTimeTable.add(new Service(Company.Posh, formatter.parse("17:25"), formatter.parse("18:01")));
 
         resultTimeTable = new ArrayList<>();
-        resultTimeTable.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:00")));
-        resultTimeTable.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:10")));
-        resultTimeTable.add(new Service(Company.POSH, formatter.parse("12:05"), formatter.parse("12:30")));
-        resultTimeTable.add(new Service(Company.POSH, formatter.parse("17:25"), formatter.parse("18:01")));
-        resultTimeTable.add(new Service(Company.GROTTY, formatter.parse("12:45"), formatter.parse("13:25")));
+        resultTimeTable.add(new Service(Company.Posh, formatter.parse("10:10"), formatter.parse("11:00")));
+        resultTimeTable.add(new Service(Company.Posh, formatter.parse("10:15"), formatter.parse("11:10")));
+        resultTimeTable.add(new Service(Company.Posh, formatter.parse("12:05"), formatter.parse("12:30")));
+        resultTimeTable.add(new Service(Company.Posh, formatter.parse("17:25"), formatter.parse("18:01")));
+        resultTimeTable.add(new Service(Company.Grotty, formatter.parse("12:45"), formatter.parse("13:25")));
 
 
     }
 
     @Test
     public void testGetMoreEfficientServicesThanThisService() throws ParseException {
-        Service service = new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:10"));
+        Service service = new Service(Company.Posh, formatter.parse("10:15"), formatter.parse("11:10"));
         List<Service> services = new ArrayList<>();
-        services.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:5")));
-        services.add(new Service(Company.POSH, formatter.parse("10:17"), formatter.parse("11:10")));
-        services.add(new Service(Company.POSH, formatter.parse("10:18"), formatter.parse("11:9")));
+        services.add(new Service(Company.Posh, formatter.parse("10:15"), formatter.parse("11:5")));
+        services.add(new Service(Company.Posh, formatter.parse("10:17"), formatter.parse("11:10")));
+        services.add(new Service(Company.Posh, formatter.parse("10:18"), formatter.parse("11:9")));
 
         List<Service> efficientServices = new ArrayList<>();
-        efficientServices.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:5")));
-        efficientServices.add(new Service(Company.POSH, formatter.parse("10:17"), formatter.parse("11:10")));
-        efficientServices.add(new Service(Company.POSH, formatter.parse("10:18"), formatter.parse("11:9")));
+        efficientServices.add(new Service(Company.Posh, formatter.parse("10:15"), formatter.parse("11:5")));
+        efficientServices.add(new Service(Company.Posh, formatter.parse("10:17"), formatter.parse("11:10")));
+        efficientServices.add(new Service(Company.Posh, formatter.parse("10:18"), formatter.parse("11:9")));
 
 
         List<Service> services1 = new ArrayList<>();
-        services1.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:5")));
-        services1.add(new Service(Company.POSH, formatter.parse("10:17"), formatter.parse("11:10")));
-        services1.add(new Service(Company.POSH, formatter.parse("10:18"), formatter.parse("11:9")));
-        services1.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:10")));
-        services1.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:15")));
-        services1.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:15")));
+        services1.add(new Service(Company.Posh, formatter.parse("10:15"), formatter.parse("11:5")));
+        services1.add(new Service(Company.Posh, formatter.parse("10:17"), formatter.parse("11:10")));
+        services1.add(new Service(Company.Posh, formatter.parse("10:18"), formatter.parse("11:9")));
+        services1.add(new Service(Company.Posh, formatter.parse("10:10"), formatter.parse("11:10")));
+        services1.add(new Service(Company.Posh, formatter.parse("10:15"), formatter.parse("11:15")));
+        services1.add(new Service(Company.Posh, formatter.parse("10:10"), formatter.parse("11:15")));
 
         List<Service> efficientServices1 = new ArrayList<>();
-        efficientServices1.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:5")));
-        efficientServices1.add(new Service(Company.POSH, formatter.parse("10:17"), formatter.parse("11:10")));
-        efficientServices1.add(new Service(Company.POSH, formatter.parse("10:18"), formatter.parse("11:9")));
+        efficientServices1.add(new Service(Company.Posh, formatter.parse("10:15"), formatter.parse("11:5")));
+        efficientServices1.add(new Service(Company.Posh, formatter.parse("10:17"), formatter.parse("11:10")));
+        efficientServices1.add(new Service(Company.Posh, formatter.parse("10:18"), formatter.parse("11:9")));
 
         List<Service> services2 = new ArrayList<>();
-        services2.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:10")));
-        services2.add(new Service(Company.POSH, formatter.parse("10:15"), formatter.parse("11:15")));
-        services2.add(new Service(Company.POSH, formatter.parse("10:10"), formatter.parse("11:15")));
+        services2.add(new Service(Company.Posh, formatter.parse("10:10"), formatter.parse("11:10")));
+        services2.add(new Service(Company.Posh, formatter.parse("10:15"), formatter.parse("11:15")));
+        services2.add(new Service(Company.Posh, formatter.parse("10:10"), formatter.parse("11:15")));
 
         List<Service> efficientServices2 = new ArrayList<>();
 

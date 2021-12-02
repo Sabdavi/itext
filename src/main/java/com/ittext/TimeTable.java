@@ -13,7 +13,7 @@ public class TimeTable {
         for(Service service : serviceList){
             List<Service> moreEfficientServicesThanThisService = getMoreEfficientServicesThanThisService(service, serviceList);
             if(moreEfficientServicesThanThisService.isEmpty()){
-                if(service.company.equals(Company.POSH)){
+                if(service.company.equals(Company.Posh)){
                     timeTableForPosh.add(service);
                 }else{
                     timeTableForGrotty.add(service);
