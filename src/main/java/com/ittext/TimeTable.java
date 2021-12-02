@@ -1,6 +1,7 @@
 package com.ittext;
 
 import java.io.IOException;
+import java.io.SyncFailedException;
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,7 +46,7 @@ public class TimeTable {
 
     private void validateSyntax(String srv, long lineNumber, SyntaxChecker syntaxChecker) {
         if(!syntaxChecker.getPattern().matcher(srv).find()){
-            throw new RuntimeException(String.format("invalid formant at line %d",lineNumber));
+            throw new InvalidSyntaxException(String.format("invalid formant at line %d",lineNumber));
         }
     }
 

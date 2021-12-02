@@ -152,7 +152,7 @@ public class TimeTableTest {
                 "fdsfsd 10:10 11:00"
 
         );
-        assertThrows(RuntimeException.class,() -> timeTable.convertStringToService(stringServices, syntaxChecker));
+        assertThrows(InvalidSyntaxException.class,() -> timeTable.convertStringToService(stringServices, syntaxChecker));
     }
 
     @Test
@@ -161,7 +161,7 @@ public class TimeTableTest {
                 "Posh qw:10 11:00"
 
         );
-        assertThrows(RuntimeException.class,() -> timeTable.convertStringToService(stringServices, syntaxChecker));
+        assertThrows(InvalidSyntaxException.class,() -> timeTable.convertStringToService(stringServices, syntaxChecker));
     }
 
     @Test
@@ -170,7 +170,7 @@ public class TimeTableTest {
                 "Posh 10:10 asas:00"
 
         );
-        assertThrows(RuntimeException.class,() -> timeTable.convertStringToService(stringServices, syntaxChecker));
+        assertThrows(InvalidSyntaxException.class,() -> timeTable.convertStringToService(stringServices, syntaxChecker));
     }
 
 }
