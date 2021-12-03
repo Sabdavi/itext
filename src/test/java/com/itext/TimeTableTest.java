@@ -17,18 +17,21 @@ import static com.itext.FileUtilsTest.compareToFile;
 import static com.ittext.TimeUtils.convertStringToDate;
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TimeTableTest {
 
-    List<Service> initTimeTable;
-    List<Service> resultTimeTable;
-    EfficiencyStrategy efficiencyStrategy = new EfficiencyStrategyImpl();
-    SyntaxChecker syntaxChecker = new SyntaxCheckerImpl();
-    TimeTable timeTable = new TimeTable(efficiencyStrategy, syntaxChecker);
+    static List<Service> initTimeTable;
+    static List<Service> resultTimeTable;
+    static EfficiencyStrategy efficiencyStrategy;
+    static SyntaxChecker syntaxChecker;
+    static TimeTable timeTable;
     ClassLoader classLoader = getClass().getClassLoader();
 
     @BeforeAll
-    public void initEnvironment() throws ParseException {
+    public static void initEnvironment() throws ParseException {
+        efficiencyStrategy = new EfficiencyStrategyImpl();
+        syntaxChecker = new SyntaxCheckerImpl();
+        timeTable = new TimeTable(efficiencyStrategy, syntaxChecker);
+
         initTimeTable = new ArrayList<>();
         initTimeTable.add(new Service(Company.Posh, convertStringToDate("10:15"), convertStringToDate("11:10")));
         initTimeTable.add(new Service(Company.Posh, convertStringToDate("10:10"), convertStringToDate("11:00")));
@@ -45,8 +48,6 @@ public class TimeTableTest {
         resultTimeTable.add(new Service(Company.Posh, convertStringToDate("12:05"), convertStringToDate("12:30")));
         resultTimeTable.add(new Service(Company.Posh, convertStringToDate("17:25"), convertStringToDate("18:01")));
         resultTimeTable.add(new Service(Company.Grotty, convertStringToDate("12:45"), convertStringToDate("13:25")));
-
-
     }
 
     @Test
