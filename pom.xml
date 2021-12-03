@@ -41,7 +41,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        com.ittext.Test
+                                        com.ittext.Launcher
                                     </mainClass>
                                 </manifest>
                             </archive>
