@@ -67,6 +67,20 @@ public class TimeTable {
         Map<String,List<Service>> serviceMap = new HashMap<>();
         List<Service> timeTableForPosh = new ArrayList<>();
         List<Service> timeTableForGrotty = new ArrayList<>();
+
+        extractEfficientServices(timeTableForPosh, timeTableForGrotty , serviceList);
+
+        Collections.sort(timeTableForPosh);
+        Collections.sort(timeTableForGrotty);
+
+        serviceMap.put(Company.Posh.toString(),timeTableForPosh);
+        serviceMap.put(Company.Grotty.toString(),timeTableForGrotty);
+
+        return serviceMap;
+    }
+
+    private void extractEfficientServices(List<Service> timeTableForPosh , List<Service> timeTableForGrotty ,
+                                          List<Service> serviceList){
         for(Service service : serviceList){
             List<Service> moreEfficientServicesThanThisService = getMoreEfficientServicesThanThisService(service, serviceList);
             if(moreEfficientServicesThanThisService.isEmpty()){
@@ -77,11 +91,6 @@ public class TimeTable {
                 }
             }
         }
-        Collections.sort(timeTableForPosh);
-        Collections.sort(timeTableForGrotty);
-        serviceMap.put(Company.Posh.toString(),timeTableForPosh);
-        serviceMap.put(Company.Grotty.toString(),timeTableForGrotty);
-        return serviceMap;
     }
 
     public List<Service> getMoreEfficientServicesThanThisService(Service service ,List<Service> services){
