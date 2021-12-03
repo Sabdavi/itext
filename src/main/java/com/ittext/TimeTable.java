@@ -10,8 +10,8 @@ import static com.ittext.TimeUtils.convertStringToDate;
 public class TimeTable {
 
 
-    EfficiencyStrategy efficiencyStrategy;
-    SyntaxChecker syntaxChecker;
+    private EfficiencyStrategy efficiencyStrategy;
+    private SyntaxChecker syntaxChecker;
 
     public TimeTable(EfficiencyStrategy efficiencyStrategy, SyntaxChecker syntaxChecker) {
         this.efficiencyStrategy = efficiencyStrategy;
@@ -33,7 +33,9 @@ public class TimeTable {
             validateSyntax(srv, lineNumber, syntaxChecker);
             Service service = mapToService(srv, syntaxChecker);
             validateSemantic(service, lineNumber);
-            services.add(service);
+            if(!isLongService(service)){
+                services.add(service);
+            }
             lineNumber++;
         }
         return services;
@@ -52,6 +54,10 @@ public class TimeTable {
                 convertStringToDate(serviceElements[mapping.get("departureTime")])
                 ,convertStringToDate(serviceElements[mapping.get("arrivalTime")]));
 
+    }
+
+    private boolean isLongService(Service service){
+        return (service.arrivalTime.getTime() - service.departureTime.getTime()) / (60*60*1000) > 1 ;
     }
 
     public void validateSemantic(Service service, long lineNumber) {
