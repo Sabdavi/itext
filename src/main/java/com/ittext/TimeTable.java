@@ -9,6 +9,7 @@ import static com.ittext.TimeUtils.convertStringToDate;
 
 public class TimeTable {
 
+
     EfficiencyStrategy efficiencyStrategy;
     SyntaxChecker syntaxChecker;
 
@@ -18,10 +19,11 @@ public class TimeTable {
     }
 
     public Path createTimeTableFile(String fileName) throws IOException, ParseException {
+        String homePath = System.getProperty("user.home");
         List<String> stringList = FileUtils.readFile(fileName);
         List<Service> services =  convertStringToService(stringList,syntaxChecker);
         Map<String,List<Service>> timeTableObjects = createTimeTableObjects(services);
-        return FileUtils.writeFile(timeTableObjects, "/home/saeid/Downloads/itext/resultTimeTable.txt");
+        return FileUtils.writeFile(timeTableObjects, homePath+"/resultTimeTable.txt");
 
     }
     public List<Service> convertStringToService(List<String> stringServices, SyntaxChecker syntaxChecker) throws ParseException {
