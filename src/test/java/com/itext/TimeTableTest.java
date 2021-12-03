@@ -3,15 +3,16 @@ package com.itext;
 import com.ittext.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.itext.FileUtilsTest.compareToFile;
 import static com.ittext.TimeUtils.convertStringToDate;
@@ -36,7 +37,6 @@ public class TimeTableTest {
         initTimeTable.add(new Service(Company.Posh, convertStringToDate("10:15"), convertStringToDate("11:10")));
         initTimeTable.add(new Service(Company.Posh, convertStringToDate("10:10"), convertStringToDate("11:00")));
         initTimeTable.add(new Service(Company.Grotty, convertStringToDate("10:10"), convertStringToDate("11:00")));
-        initTimeTable.add(new Service(Company.Grotty, convertStringToDate("16:30"), convertStringToDate("18:45")));
         initTimeTable.add(new Service(Company.Posh, convertStringToDate("12:05"), convertStringToDate("12:30")));
         initTimeTable.add(new Service(Company.Grotty, convertStringToDate("12:30"), convertStringToDate("13:25")));
         initTimeTable.add(new Service(Company.Grotty, convertStringToDate("12:45"), convertStringToDate("13:25")));
@@ -125,10 +125,19 @@ public class TimeTableTest {
 
     @Test
     public void testCreateTimeTableFile() throws IOException, ParseException {
-        Path createdPath = timeTable.createTimeTableFile(classLoader.getResource("timeTable.txt").getPath());
-        Path existedPath = Path.of(classLoader.getResource("resultTimeTable.txt").getPath());
 
-        assertEquals(compareToFile(createdPath,existedPath),-1);
+        Path resultPath = Paths.get("src/test/resources/result");
+        Path sourcePath = Paths.get("src/test/resources/source");
+
+        List<Path> resultFilePaths = Files.list(resultPath).collect(Collectors.toList());
+        resultFilePaths.sort(Comparator.comparing(s ->s.toString()));
+        List<Path> sourceFilePaths = Files.list(sourcePath).collect(Collectors.toList());
+        sourceFilePaths.sort(Comparator.comparing(s ->s.toString()));
+
+        for(int i = 0 ; i < resultFilePaths.size() ; i++){
+            Path createdFile = timeTable.createTimeTableFile(sourceFilePaths.get(i).toString());
+            assertEquals(-1,compareToFile(resultFilePaths.get(i),createdFile));
+        }
     }
 
     @Test
@@ -137,7 +146,6 @@ public class TimeTableTest {
                 "Posh 10:15 11:10",
                 "Posh 10:10 11:00",
                 "Grotty 10:10 11:00",
-                "Grotty 16:30 18:45",
                 "Posh 12:05 12:30",
                 "Grotty 12:30 13:25",
                 "Grotty 12:45 13:25",

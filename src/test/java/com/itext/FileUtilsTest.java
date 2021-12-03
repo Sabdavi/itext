@@ -30,7 +30,7 @@ public class FileUtilsTest {
         resultServices.add("Posh 17:25 18:01");
 
 
-        URL resource = classLoader.getResource("timeTable.txt");
+        URL resource = classLoader.getResource("source/timeTable1.txt");
         List<String> stringServices = FileUtils.readFile(resource.getPath());
 
         assertTrue(stringServices.size() == resultServices.size());
