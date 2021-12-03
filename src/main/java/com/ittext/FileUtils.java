@@ -23,13 +23,17 @@ public class FileUtils {
         Path path = Path.of(fileName);
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path)) {
             for (Service service : poshServices) {
-                bufferedWriter.write(service.toString() + "\n");
+                bufferedWriter.write(service.toString());
+                bufferedWriter.newLine();
             }
 
-            bufferedWriter.write("\n");
+            if(!grottyServices.isEmpty() && !poshServices.isEmpty()){
+                bufferedWriter.newLine();
+            }
 
             for (Service service : grottyServices) {
-                bufferedWriter.write(service.toString() + "\n");
+                bufferedWriter.write(service.toString());
+                bufferedWriter.newLine();
             }
         }
         return path;
