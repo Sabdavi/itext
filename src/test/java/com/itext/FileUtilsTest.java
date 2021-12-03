@@ -1,8 +1,6 @@
 package com.itext;
 
-import com.ittext.Company;
 import com.ittext.FileUtils;
-import com.ittext.Service;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -10,8 +8,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FileUtilsTest {
 
-    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
     ClassLoader classLoader = getClass().getClassLoader();
     @Test
     public void testReadFile() throws IOException {
@@ -43,25 +38,6 @@ public class FileUtilsTest {
             assertEquals(resultServices.get(i),stringServices.get(i));
         }
     }
-
-   /* @Test
-    public void testWriteFile() throws ParseException, IOException {
-
-        List<Service> initTimeTable = new ArrayList<>();
-        initTimeTable.add(new Service(Company.Posh, formatter.parse("10:15"), formatter.parse("11:10")));
-        initTimeTable.add(new Service(Company.Posh, formatter.parse("10:10"), formatter.parse("11:00")));
-        initTimeTable.add(new Service(Company.Grotty, formatter.parse("10:10"), formatter.parse("11:00")));
-        initTimeTable.add(new Service(Company.Grotty, formatter.parse("16:30"), formatter.parse("18:45")));
-        initTimeTable.add(new Service(Company.Posh, formatter.parse("12:05"), formatter.parse("12:30")));
-        initTimeTable.add(new Service(Company.Grotty, formatter.parse("12:30"), formatter.parse("13:25")));
-        initTimeTable.add(new Service(Company.Grotty, formatter.parse("12:45"), formatter.parse("13:25")));
-        initTimeTable.add(new Service(Company.Posh, formatter.parse("17:25"), formatter.parse("18:01")));
-
-        Path createdPath = FileUtils.writeFile(initTimeTable, "/home/saeid/Downloads/itext/resultTimeTable.txt");
-        Path existedPath = Path.of(classLoader.getResource("timeTable.txt").getPath());
-
-        assertEquals(compareToFile(createdPath,existedPath),-1);
-    }*/
 
     public static long compareToFile(Path path1, Path path2) throws IOException {
         try (BufferedReader bf1 = Files.newBufferedReader(path1);

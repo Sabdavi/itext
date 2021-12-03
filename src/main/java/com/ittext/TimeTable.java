@@ -3,12 +3,11 @@ package com.ittext;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class TimeTable {
+import static com.ittext.TimeUtils.convertStringToDate;
 
-    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+public class TimeTable {
 
     EfficiencyStrategy efficiencyStrategy;
     SyntaxChecker syntaxChecker;
@@ -33,7 +32,8 @@ public class TimeTable {
             Map<String, Integer> mapping = syntaxChecker.getMapping();
             String[] serviceElements = srv.split(syntaxChecker.getSeparator());
             Service service = new Service(Company.valueOf(serviceElements[mapping.get("company")]),
-                    format.parse(serviceElements[mapping.get("departureTime")]),format.parse(serviceElements[mapping.get("arrivalTime")]));
+                    convertStringToDate(serviceElements[mapping.get("departureTime")])
+                    ,convertStringToDate(serviceElements[mapping.get("arrivalTime")]));
             services.add(service);
             lineNumber++;
         }
