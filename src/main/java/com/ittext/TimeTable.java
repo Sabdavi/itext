@@ -29,11 +29,8 @@ public class TimeTable {
         long lineNumber = 1;
         for(String srv : stringServices){
             validateSyntax(srv, lineNumber, syntaxChecker);
-            Map<String, Integer> mapping = syntaxChecker.getMapping();
-            String[] serviceElements = srv.split(syntaxChecker.getSeparator());
-            Service service = new Service(Company.valueOf(serviceElements[mapping.get("company")]),
-                    convertStringToDate(serviceElements[mapping.get("departureTime")])
-                    ,convertStringToDate(serviceElements[mapping.get("arrivalTime")]));
+            Service service = mapToService(srv, syntaxChecker);
+            validateSemantic(service, lineNumber);
             services.add(service);
             lineNumber++;
         }
@@ -43,6 +40,26 @@ public class TimeTable {
     private void validateSyntax(String srv, long lineNumber, SyntaxChecker syntaxChecker) {
         if(!syntaxChecker.getPattern().matcher(srv).find()){
             throw new InvalidSyntaxException(String.format("invalid formant at line %d",lineNumber));
+        }
+    }
+
+    private Service mapToService(String stringService, SyntaxChecker syntaxChecker) throws ParseException {
+        Map<String, Integer> mapping = syntaxChecker.getMapping();
+        String[] serviceElements = stringService.split(syntaxChecker.getSeparator());
+        return new Service(Company.valueOf(serviceElements[mapping.get("company")]),
+                convertStringToDate(serviceElements[mapping.get("departureTime")])
+                ,convertStringToDate(serviceElements[mapping.get("arrivalTime")]));
+
+    }
+
+    public void validateSemantic(Service service, long lineNumber) {
+        if(service.departureTime.compareTo(service.arrivalTime) > 0){
+            throw new InvalidSemanticException(String.format("invalid semantic at line %d departure time could " +
+                    "not be greater than arrival time",lineNumber));
+        }
+        if(service.arrivalTime.compareTo(service.departureTime) == 0){
+            throw new InvalidSemanticException(String.format("invalid semantic at line %d departure time could " +
+                    "not be equal to arrival time",lineNumber));
         }
     }
 

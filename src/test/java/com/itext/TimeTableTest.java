@@ -176,4 +176,22 @@ public class TimeTableTest {
         assertThrows(InvalidSyntaxException.class,() -> timeTable.convertStringToService(stringServices, syntaxChecker));
     }
 
+    @Test
+    public void TestValidateSemantic() throws ParseException {
+        Service service = new Service(Company.Posh, convertStringToDate("12:15"), convertStringToDate("11:5"));
+        assertThrows(InvalidSemanticException.class, () -> timeTable.validateSemantic(service,0));
+    }
+
+    @Test
+    public void TestValidateSemantic1() throws ParseException {
+        Service service = new Service(Company.Posh, convertStringToDate("12:15"), convertStringToDate("12:15"));
+        assertThrows(InvalidSemanticException.class, () -> timeTable.validateSemantic(service,0));
+    }
+
+    @Test
+    public void TestValidateSemantic2() throws ParseException {
+        Service service = new Service(Company.Posh, convertStringToDate("12:15"), convertStringToDate("13:15"));
+        assertDoesNotThrow(() -> timeTable.validateSemantic(service,0));
+    }
+
 }
