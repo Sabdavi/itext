@@ -14,13 +14,13 @@ public class SyntaxCheckerTest {
 
     @Test
     public void testSyntaxChecker(){
-        String s1 = "GRUTTY 10:10 12:20";
-        String s2 = "POSH 10:10 12:20";
-        String s3 = "GRUTTY a0:10 1220";
+        String s1 = "Grotty 10:10 12:20";
+        String s2 = "Posh 10:10 12:20";
+        String s3 = "Grotty a0:10 1220";
         String s4 = "BMW 10:10 12:20";
-        String s5 = "GRUTTY sasas 12:20";
-        String s6 = "GRUTTY sasas fffdfd";
-        String s7 = "GRUTTY sasas 3333ewe";
+        String s5 = "Grotty sasas 12:20";
+        String s6 = "Grotty sasas fffdfd";
+        String s7 = "Grotty sasas 3333ewe";
 
         SyntaxChecker syntaxChecker = new SyntaxCheckerImpl();
         Pattern pattern = syntaxChecker.getPattern();

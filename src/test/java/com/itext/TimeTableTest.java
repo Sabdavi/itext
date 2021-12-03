@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static com.itext.FileUtilsTest.compareToFile;
 import static org.junit.jupiter.api.Assertions.*;
@@ -109,7 +110,10 @@ public class TimeTableTest {
 
     @Test
     public void testCreateTimeTableObjects() {
-        List<Service> timeTableList = timeTable.createTimeTableObjects(initTimeTable);
+        Map<String, List<Service>> timeTableObjects = timeTable.createTimeTableObjects(initTimeTable);
+        List<Service> timeTableList = new ArrayList<>();
+        timeTableList.addAll(timeTableObjects.get(Company.Posh.toString()));
+        timeTableList.addAll(timeTableObjects.get(Company.Grotty.toString()));
 
         assertTrue(timeTableList.size() == resultTimeTable.size());
         for (int i = 0; i < timeTableList.size(); i++) {

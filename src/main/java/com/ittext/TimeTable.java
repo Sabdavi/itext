@@ -1,14 +1,10 @@
 package com.ittext;
 
 import java.io.IOException;
-import java.io.SyncFailedException;
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TimeTable {
 
@@ -25,7 +21,7 @@ public class TimeTable {
     public Path createTimeTableFile(String fileName) throws IOException, ParseException {
         List<String> stringList = FileUtils.readFile(fileName);
         List<Service> services =  convertStringToService(stringList,syntaxChecker);
-        List<Service> timeTableObjects = createTimeTableObjects(services);
+        Map<String,List<Service>> timeTableObjects = createTimeTableObjects(services);
         return FileUtils.writeFile(timeTableObjects, "/home/saeid/Downloads/itext/resultTimeTable.txt");
 
     }
@@ -50,8 +46,8 @@ public class TimeTable {
         }
     }
 
-    public List<Service> createTimeTableObjects(List<Service> serviceList){
-        List<Service> timeTable = new ArrayList<>();
+    public Map<String,List<Service>> createTimeTableObjects(List<Service> serviceList){
+        Map<String,List<Service>> serviceMap = new HashMap<>();
         List<Service> timeTableForPosh = new ArrayList<>();
         List<Service> timeTableForGrotty = new ArrayList<>();
         for(Service service : serviceList){
@@ -66,9 +62,9 @@ public class TimeTable {
         }
         Collections.sort(timeTableForPosh);
         Collections.sort(timeTableForGrotty);
-        timeTable.addAll(timeTableForPosh);
-        timeTable.addAll(timeTableForGrotty);
-        return timeTable;
+        serviceMap.put(Company.Posh.toString(),timeTableForPosh);
+        serviceMap.put(Company.Grotty.toString(),timeTableForGrotty);
+        return serviceMap;
     }
 
     public List<Service> getMoreEfficientServicesThanThisService(Service service ,List<Service> services){
