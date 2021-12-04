@@ -1,11 +1,15 @@
 package com.ittext;
 
+import com.ittext.exception.InvalidSemanticException;
+import com.ittext.exception.InvalidSyntaxException;
+import com.ittext.util.FileUtils;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.util.*;
 
-import static com.ittext.TimeUtils.convertStringToDate;
+import static com.ittext.util.TimeUtils.convertStringToDate;
 
 public class TimeTable {
 

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.ittext.TimeUtils.convertStringToDate;
+import static com.ittext.util.TimeUtils.convertStringToDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceTest {
@@ -57,8 +57,5 @@ public class ServiceTest {
         for(int i = 0 ; i <= 0 ; i++){
             assertEquals(sortedServices.get(i),services.get(i));
         }
-
-
-
     }
 }

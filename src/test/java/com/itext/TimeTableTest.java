@@ -1,21 +1,21 @@
 package com.itext;
 
 import com.ittext.*;
+import com.ittext.exception.InvalidSemanticException;
+import com.ittext.exception.InvalidSyntaxException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static com.itext.FileUtilsTest.compareToFile;
-import static com.ittext.TimeUtils.convertStringToDate;
+import static com.ittext.util.FileUtils.compareToFile;
+import static com.ittext.util.TimeUtils.convertStringToDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TimeTableTest {

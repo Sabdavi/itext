@@ -2,7 +2,7 @@ package com.ittext;
 
 import java.util.Date;
 
-import static com.ittext.TimeUtils.convertDateToString;
+import static com.ittext.util.TimeUtils.convertDateToString;
 
 public class Service implements Comparable<Service> {
 
