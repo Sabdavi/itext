@@ -94,24 +94,24 @@ public class TimeTable {
     private void extractEfficientServices(List<Service> timeTableForPosh , List<Service> timeTableForGrotty ,
                                           List<Service> serviceList){
         for(Service service : serviceList){
-            List<Service> moreEfficientServicesThanThisService = getMoreEfficientServicesThanThisService(service, serviceList);
-            if(moreEfficientServicesThanThisService.isEmpty()){
-                if(service.company.equals(Company.Posh)){
-                    timeTableForPosh.add(service);
-                }else{
-                    timeTableForGrotty.add(service);
-                }
-            }
+           if(!hasMoreEfficientServicesThanThisService(service, serviceList)){
+               if(service.company.equals(Company.Posh)){
+                   timeTableForPosh.add(service);
+               }else{
+                   timeTableForGrotty.add(service);
+               }
+           }
         }
     }
 
-    public List<Service> getMoreEfficientServicesThanThisService(Service service ,List<Service> services){
-        List<Service> moreEfficientServices = new ArrayList<>();
+    public boolean hasMoreEfficientServicesThanThisService(Service service ,List<Service> services){
+        boolean hasMoreEfficientService = false;
         for(Service srv : services){
             if(efficiencyStrategy.isMoreEfficient(srv,service)){
-                moreEfficientServices.add(srv);
+                hasMoreEfficientService = true;
+                break;
             }
         }
-        return moreEfficientServices;
+        return hasMoreEfficientService;
     }
 }

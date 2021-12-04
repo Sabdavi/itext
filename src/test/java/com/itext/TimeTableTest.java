@@ -82,30 +82,10 @@ public class TimeTableTest {
         services2.add(new Service(Company.Posh, convertStringToDate("10:15"), convertStringToDate("11:15")));
         services2.add(new Service(Company.Posh, convertStringToDate("10:10"), convertStringToDate("11:15")));
 
-        List<Service> efficientServices2 = new ArrayList<>();
+        assertTrue(timeTable.hasMoreEfficientServicesThanThisService(service,services));
+        assertTrue(timeTable.hasMoreEfficientServicesThanThisService(service,services1));
+        assertFalse(timeTable.hasMoreEfficientServicesThanThisService(service,services2));
 
-
-        List<Service> moreEfficientServicesThanThisService = timeTable.
-                getMoreEfficientServicesThanThisService(service, services);
-
-        List<Service> moreEfficientServicesThanThisService1 = timeTable.
-                getMoreEfficientServicesThanThisService(service, services1);
-
-        List<Service> moreEfficientServicesThanThisService2 = timeTable.
-                getMoreEfficientServicesThanThisService(service, services2);
-
-
-        assertEquals(moreEfficientServicesThanThisService.size(), efficientServices.size());
-        assertEquals(moreEfficientServicesThanThisService1.size(), efficientServices1.size());
-        assertEquals(moreEfficientServicesThanThisService2.size(), efficientServices2.size());
-
-        for (int i = 0; i < moreEfficientServicesThanThisService.size(); i++) {
-            assertTrue(moreEfficientServicesThanThisService.get(i).equals(efficientServices.get(i)));
-        }
-
-        for (int i = 0; i < services.size(); i++) {
-            assertTrue(moreEfficientServicesThanThisService1.get(i).equals(efficientServices1.get(i)));
-        }
     }
 
     @Test
