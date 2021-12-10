@@ -60,8 +60,8 @@ public class TimeTable {
 
     }
 
-    private boolean isLongService(Service service){
-        return (service.arrivalTime.getTime() - service.departureTime.getTime()) / (60*60*1000) > 1 ;
+    public boolean isLongService(Service service){
+        return (service.arrivalTime.getTime() - service.departureTime.getTime()) / (60*1000) > 60 ;
     }
 
     public void validateSemantic(Service service, long lineNumber) {

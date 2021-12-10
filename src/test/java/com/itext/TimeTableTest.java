@@ -183,4 +183,10 @@ public class TimeTableTest {
         assertDoesNotThrow(() -> timeTable.validateSemantic(service,0));
     }
 
+    @Test
+    public void testIsLongService() throws ParseException {
+        Service service = new Service(Company.Posh, convertStringToDate("12:15"), convertStringToDate("13:25"));
+        assertTrue(timeTable.isLongService(service));
+    }
+
 }
